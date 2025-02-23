@@ -99,7 +99,6 @@ def login():
     for account in accounts:
         if account["username"] == username and account["password"] == password:
             error_label.config(text="✅ Login successful!", fg="green")
-            print(f"Welcome, {account['name']}!")  # Debugging
             show_account_screen(account)  # Call the function to load the account screen
             return
     
@@ -136,6 +135,9 @@ password_entry.pack(pady=5)
 # Submit Button
 submit_button = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#d4b270", fg="black", padx=20, pady=10, command=login)
 submit_button.pack(pady=(30, 20))
+
+# Bind Enter key to trigger login
+root.bind("<Return>", lambda event: login())
 
 # Error Message Label (Hidden Initially)
 error_label = tk.Label(root, text="", font=("Arial", 12), bg="#242f40", fg="red")
