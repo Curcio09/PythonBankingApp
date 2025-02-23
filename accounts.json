@@ -1,0 +1,38 @@
+[
+    {
+        "name": "Chris Curcio",
+        "username": "curcio_admin",
+        "password": "SecureBank123!",
+        "account_number": 7797350999,
+        "routing_number": 756090824,
+        "checking_balance": 5319.7,
+        "savings_balance": 6706.22
+    },
+    {
+        "name": "Richard Caldwell",
+        "username": "richardC89",
+        "password": "CNB$avings321",
+        "account_number": 6494256937,
+        "routing_number": 921676375,
+        "checking_balance": 3855.57,
+        "savings_balance": 7860.3
+    },
+    {
+        "name": "Sarah West",
+        "username": "sarah_west",
+        "password": "DepositNow789!",
+        "account_number": 3744091843,
+        "routing_number": 683558726,
+        "checking_balance": 1944.95,
+        "savings_balance": 4396.58
+    },
+    {
+        "name": "Mark Thompson",
+        "username": "markT_CNB",
+        "password": "TrustBank654@",
+        "account_number": 5939764393,
+        "routing_number": 656101089,
+        "checking_balance": 3304.16,
+        "savings_balance": 1882.43
+    }
+]
