@@ -5,8 +5,8 @@
         "password": "SecureBank123!",
         "account_number": 7797350999,
         "routing_number": 756090824,
-        "checking_balance": 5319.7,
-        "savings_balance": 6706.22
+        "checking_balance": 12300.0,
+        "savings_balance": 11274.25
     },
     {
         "name": "Richard Caldwell",
@@ -15,7 +15,7 @@
         "account_number": 6494256937,
         "routing_number": 921676375,
         "checking_balance": 3855.57,
-        "savings_balance": 7860.3
+        "savings_balance": 860.3000000000002
     },
     {
         "name": "Sarah West",
@@ -24,7 +24,7 @@
         "account_number": 3744091843,
         "routing_number": 683558726,
         "checking_balance": 1944.95,
-        "savings_balance": 4396.58
+        "savings_balance": 396.0
     },
     {
         "name": "Mark Thompson",

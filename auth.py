@@ -25,7 +25,7 @@ def login(username_entry, password_entry, root, error_label, show_account_screen
     # If no match was found
     error_label.config(text="❌ Invalid username or password!", fg="red")
 
-# 🔴 Function to Restart the Program (Fixing ImportError)
+# Function to Restart the Program (Fixing ImportError)
 def restart_program(root):
     root.destroy()  # Close the window
     os.system("python main.py")  # Restart the program
