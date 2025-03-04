@@ -5,8 +5,64 @@
         "password": "SecureBank123!",
         "account_number": 7797350999,
         "routing_number": 756090824,
-        "checking_balance": 12300.0,
-        "savings_balance": 11274.25
+        "checking_balance": 4385.25,
+        "savings_balance": 4472.36,
+        "transactions": [
+            {
+                "date": "2025-03-04 12:05:38",
+                "type": "Deposit",
+                "account": "Checking",
+                "amount": 12.67
+            },
+            {
+                "date": "2025-03-04 12:05:54",
+                "type": "Deposit",
+                "account": "Checking",
+                "amount": 500.0
+            },
+            {
+                "date": "2025-03-04 12:06:05",
+                "type": "Withdraw",
+                "account": "Checking",
+                "amount": 32.44
+            },
+            {
+                "date": "2025-03-04 12:06:14",
+                "type": "Withdraw",
+                "account": "Checking",
+                "amount": 789.0
+            },
+            {
+                "date": "2025-03-04 12:06:31",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 234.67
+            },
+            {
+                "date": "2025-03-04 12:06:52",
+                "type": "Transfer Sent",
+                "account": "Savings",
+                "amount": 56.22
+            },
+            {
+                "date": "2025-03-04 12:07:06",
+                "type": "Withdraw",
+                "account": "Savings",
+                "amount": 3000.0
+            },
+            {
+                "date": "2025-03-04 12:07:15",
+                "type": "Deposit",
+                "account": "Checking",
+                "amount": 450.66
+            },
+            {
+                "date": "2025-03-04 12:07:34",
+                "type": "Deposit",
+                "account": "Savings",
+                "amount": 1254.33
+            }
+        ]
     },
     {
         "name": "Richard Caldwell",
@@ -14,8 +70,16 @@
         "password": "CNB$avings321",
         "account_number": 6494256937,
         "routing_number": 921676375,
-        "checking_balance": 3855.57,
-        "savings_balance": 860.3000000000002
+        "checking_balance": 9345.439999999999,
+        "savings_balance": 860.3000000000002,
+        "transactions": [
+            {
+                "date": "2025-03-04 12:06:52",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 56.22
+            }
+        ]
     },
     {
         "name": "Sarah West",
@@ -24,7 +88,15 @@
         "account_number": 3744091843,
         "routing_number": 683558726,
         "checking_balance": 1944.95,
-        "savings_balance": 396.0
+        "savings_balance": 630.67,
+        "transactions": [
+            {
+                "date": "2025-03-04 12:06:31",
+                "type": "Transfer Received",
+                "account": "Savings",
+                "amount": 234.67
+            }
+        ]
     },
     {
         "name": "Mark Thompson",

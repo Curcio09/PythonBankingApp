@@ -173,6 +173,22 @@ def show_account_screen(account, root):
                                 padx=20, pady=10, command=lambda: open_transfer_window(account, root))
     transfer_button.grid(row=0, column=2, padx=10)
 
+    # Transaction History Buttons Frame
+    history_frame = tk.Frame(root, bg="#242f40")
+    history_frame.pack(pady=10)
+
+    # Checking Transaction History Button
+    checking_history_button = tk.Button(history_frame, text="Checking History", font=("Arial", 12, "bold"),
+                                        bg="#d4b270", fg="black", padx=20, pady=5,
+                                        command=lambda: open_transaction_history(account, "Checking", root))
+    checking_history_button.grid(row=0, column=0, padx=10)
+
+    # Savings Transaction History Button
+    savings_history_button = tk.Button(history_frame, text="Savings History", font=("Arial", 12, "bold"),
+                                    bg="#d4b270", fg="black", padx=20, pady=5,
+                                    command=lambda: open_transaction_history(account, "Savings", root))
+    savings_history_button.grid(row=0, column=1, padx=10)
+
 def open_deposit_window(account, root):
     # Create a popup window
     deposit_window = tk.Toplevel(root)
@@ -218,7 +234,10 @@ def process_deposit(account, selected_account, amount, deposit_window, root):
         else:
             account["savings_balance"] += amount
 
-        # Save updated balance
+        # Log the transaction
+        log_transaction(account, selected_account, "Deposit", amount)
+
+        # Save updated balance and transaction history
         update_account(account)
 
         # Close the deposit window
@@ -227,9 +246,9 @@ def process_deposit(account, selected_account, amount, deposit_window, root):
         # Refresh the account screen to show the new balance
         show_account_screen(account, root)
 
-    except ValueError:
+    except ValueError as e:
         # Show error if input is invalid
-        error_label = tk.Label(deposit_window, text="⚠️ Invalid amount!", font=("Arial", 10), bg="#242f40", fg="red")
+        error_label = tk.Label(deposit_window, text=f"⚠️ {str(e)}", font=("Arial", 10), bg="#242f40", fg="red")
         error_label.pack(pady=5)
 
 def open_withdraw_window(account, root):
@@ -281,7 +300,10 @@ def process_withdraw(account, selected_account, amount, withdraw_window, root):
                 raise ValueError("Insufficient funds.")
             account["savings_balance"] -= amount
 
-        # Save updated balance
+        # Log the transaction
+        log_transaction(account, selected_account, "Withdraw", amount)
+
+        # Save updated balance and transaction history
         update_account(account)
 
         # Close the withdraw window
@@ -384,6 +406,10 @@ def process_transfer(account, from_account, recipient_selection, account_mapping
         else:
             recipient_account["savings_balance"] += amount
 
+        # Log the transaction for both sender and recipient
+        log_transaction(account, from_account, "Transfer Sent", amount)
+        log_transaction(recipient_account, recipient_account_type, "Transfer Received", amount)
+
         # Save updates
         update_account(account)
         update_account(recipient_account)
@@ -398,3 +424,41 @@ def process_transfer(account, from_account, recipient_selection, account_mapping
         # Show error if input is invalid
         error_label = tk.Label(transfer_window, text=f"⚠️ {str(e)}", font=("Arial", 10), bg="#242f40", fg="red")
         error_label.pack(pady=5)
+
+import datetime  # Ensure datetime is imported
+
+def open_transaction_history(account, account_type, root):
+    """ Opens a transaction history window showing past transactions for a given account type. """
+    history_window = tk.Toplevel(root)
+    history_window.title(f"{account_type} Transaction History")
+    history_window.geometry("450x350")
+    history_window.configure(bg="#242f40")
+
+    tk.Label(history_window, text=f"{account_type} Transactions", font=("Arial", 14, "bold"), bg="#242f40", fg="white").pack(pady=5)
+
+    transaction_list = tk.Listbox(history_window, font=("Arial", 12), width=60, height=12)
+    transaction_list.pack(pady=5)
+
+    # Ensure transactions exist in account
+    for transaction in account.get("transactions", []):
+        if transaction["account"] == account_type:
+            transaction_list.insert(
+                tk.END,
+                f"{transaction['date']} | {transaction['type']} | ${transaction['amount']:.2f}"
+            )
+
+def log_transaction(account, account_type, transaction_type, amount):
+    """ Logs a transaction in the account's transaction history and saves it. """
+    if "transactions" not in account:  
+        account["transactions"] = []  # Ensure transactions key exists
+
+    transaction = {
+        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "type": transaction_type,
+        "account": account_type,
+        "amount": amount
+    }
+    
+    account["transactions"].append(transaction)  # Add to history
+
+    update_account(account)  # Save changes
