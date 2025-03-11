@@ -1,80 +1,13 @@
 import tkinter as tk
-from PIL import Image, ImageTk  # Required for handling images
-from auth import login, restart_program
+from PIL import Image, ImageTk
+from auth import restart_program
 from database import load_accounts
-
-# Function to Show the Login Screen
-def show_login_screen(root):
-    # Clear the screen
-    for widget in root.winfo_children():
-        widget.destroy()
-
-    # Load the logo image
-    try:
-        logo_image = Image.open("logo.png")
-        logo_image = logo_image.resize((200, 200))  # Match original size
-        logo_photo = ImageTk.PhotoImage(logo_image)
-
-        # Display the logo
-        logo_label = tk.Label(root, image=logo_photo, bg="#2e3b4d")  # Match background
-        logo_label.image = logo_photo  # Prevent garbage collection
-        logo_label.pack(pady=(30, 30))  # Adjust spacing
-    except Exception as e:
-        print("Error loading logo:", e)
-
-    # Username Label and Entry
-    username_label = tk.Label(root, text="Username:", font=("Arial", 14), bg="#242f40", fg="#d4b270")
-    username_label.pack(pady=5)
-    username_entry = tk.Entry(root, font=("Arial", 22), width=22)
-    username_entry.pack(pady=5)
-
-    # Password Label and Entry
-    password_label = tk.Label(root, text="Password:", font=("Arial", 14), bg="#242f40", fg="#d4b270")
-    password_label.pack(pady=5)
-    password_entry = tk.Entry(root, font=("Arial", 22), width=22, show="*")
-    password_entry.pack(pady=5)
-
-    # Error Message Label
-    error_label = tk.Label(root, text="", font=("Arial", 12), bg="#242f40", fg="red")
-    error_label.pack(pady=5)
-
-    # Submit Button
-    submit_button = tk.Button(root, text="Submit", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
-                              padx=20, pady=10, command=lambda: login(username_entry, password_entry, root, error_label, show_account_screen))
-    submit_button.pack(pady=(30, 20))  # Adjusted spacing to match original
-
-    # Bind Enter key to trigger login
-    root.bind("<Return>", lambda event: login(username_entry, password_entry, root, error_label, show_account_screen))
-
-    # Demo Accounts Table Title
-    table_title = tk.Label(root, text="Demo Accounts", font=("Arial", 14, "bold"), bg="#242f40", fg="white")
-    table_title.pack(pady=(40, 5))  # Adjusted to match original
-
-    # Wrapper Frame to Create a White Border
-    border_wrapper = tk.Frame(root, bg="white", padx=2, pady=2)  # White Border Effect
-    border_wrapper.pack(pady=5)
-
-    # Table Frame (Inside the White Border)
-    table_frame = tk.Frame(border_wrapper, bg="#242f40", borderwidth=2, relief="solid")  
-    table_frame.pack()
-
-    # Demo Accounts Data
-    demo_accounts = [
-        {"username": "curcio_admin", "password": "SecureBank123!"},
-        {"username": "richardC89", "password": "CNB$avings321"},
-        {"username": "sarah_west", "password": "DepositNow789!"},
-        {"username": "markT_CNB", "password": "TrustBank654@"}
-    ]
-
-    # Generate Table Rows
-    for row_index, account in enumerate(demo_accounts, start=1):
-        tk.Label(table_frame, text=account["username"], font=("Arial", 10), bg="#242f40", fg="white",
-                 padx=30, pady=2).grid(row=row_index, column=0, padx=20, pady=2, sticky="nsew")
-        tk.Label(table_frame, text=account["password"], font=("Arial", 10), bg="#242f40", fg="white",
-                 padx=30, pady=2).grid(row=row_index, column=1, padx=20, pady=2, sticky="nsew")
+from transactions import process_deposit, process_withdraw, process_transfer
+from ui_transaction_history import open_transaction_history
 
 # Function to Show the Account Screen
 def show_account_screen(account, root):
+    """Displays the account overview with balances and transaction options."""
     # Clear the login screen
     for widget in root.winfo_children():
         widget.destroy()
@@ -86,7 +19,7 @@ def show_account_screen(account, root):
     # Load and display the bank logo
     try:
         logo_image = Image.open("logo.png")
-        logo_image = logo_image.resize((100, 100))  # Adjust size
+        logo_image = logo_image.resize((100, 100))  
         logo_photo = ImageTk.PhotoImage(logo_image)
 
         logo_label = tk.Label(top_frame, image=logo_photo, bg="#242f40")
@@ -110,355 +43,112 @@ def show_account_screen(account, root):
                              bg="#242f40", fg="white")
     summary_label.pack(pady=(10, 5))
 
-    # Table Wrapper (Adds Black Border)
+    # Table Wrapper (Adds Border)
     table_wrapper = tk.Frame(root, bg="black", borderwidth=2, relief="solid")
     table_wrapper.pack(pady=10)
 
-    # Table Frame (White Background)
+    # Table Frame
     table_frame = tk.Frame(table_wrapper, bg="white")
     table_frame.pack(padx=2, pady=2)
 
-    # Table Headers (Account | Balance)
-    header_frame = tk.Frame(table_frame, bg="#1e2a38")  # Darker Blue Background
+    # Table Headers
+    header_frame = tk.Frame(table_frame, bg="#1e2a38")
     header_frame.pack(fill="x")
 
-    account_header = tk.Label(header_frame, text="Account", font=("Arial", 12, "bold"),
-                              bg="#1e2a38", fg="#d4b270", width=25, padx=5, pady=5)
-    account_header.grid(row=0, column=0, sticky="w")
+    tk.Label(header_frame, text="Account", font=("Arial", 12, "bold"),
+             bg="#1e2a38", fg="#d4b270", width=25, padx=5, pady=5).grid(row=0, column=0, sticky="w")
 
-    balance_header = tk.Label(header_frame, text="Balance", font=("Arial", 12, "bold"),
-                              bg="#1e2a38", fg="#d4b270", width=15, padx=5, pady=5)
-    balance_header.grid(row=0, column=1, sticky="e")
+    tk.Label(header_frame, text="Balance", font=("Arial", 12, "bold"),
+             bg="#1e2a38", fg="#d4b270", width=15, padx=5, pady=5).grid(row=0, column=1, sticky="e")
 
     # Checking Account Row
     checking_frame = tk.Frame(table_frame, bg="white")
     checking_frame.pack(fill="x")
 
-    checking_label = tk.Label(checking_frame, text=f"Checking Account #{account['account_number']}",
-                              font=("Arial", 12), bg="white", fg="black", width=25, padx=5, pady=5)
-    checking_label.grid(row=0, column=0, sticky="w")
+    tk.Label(checking_frame, text=f"Checking Account #{account['account_number']}",
+             font=("Arial", 12), bg="white", fg="black", width=25, padx=5, pady=5).grid(row=0, column=0, sticky="w")
 
-    checking_balance = tk.Label(checking_frame, text=f"${account['checking_balance']:.2f}",
-                                font=("Arial", 12, "bold"), bg="white", fg="black", width=15, padx=5, pady=5)
-    checking_balance.grid(row=0, column=1, sticky="e")
+    tk.Label(checking_frame, text=f"${account['checking_balance']:.2f}",
+             font=("Arial", 12, "bold"), bg="white", fg="black", width=15, padx=5, pady=5).grid(row=0, column=1, sticky="e")
 
     # Savings Account Row
     savings_frame = tk.Frame(table_frame, bg="white")
     savings_frame.pack(fill="x")
 
-    savings_label = tk.Label(savings_frame, text=f"Savings Account #{account['account_number']}",
-                             font=("Arial", 12), bg="white", fg="black", width=25, padx=5, pady=5)
-    savings_label.grid(row=1, column=0, sticky="w")
+    tk.Label(savings_frame, text=f"Savings Account #{account['account_number']}",
+             font=("Arial", 12), bg="white", fg="black", width=25, padx=5, pady=5).grid(row=1, column=0, sticky="w")
 
-    savings_balance = tk.Label(savings_frame, text=f"${account['savings_balance']:.2f}",
-                               font=("Arial", 12, "bold"), bg="white", fg="black", width=15, padx=5, pady=5)
-    savings_balance.grid(row=1, column=1, sticky="e")
+    tk.Label(savings_frame, text=f"${account['savings_balance']:.2f}",
+             font=("Arial", 12, "bold"), bg="white", fg="black", width=15, padx=5, pady=5).grid(row=1, column=1, sticky="e")
 
     # Buttons Frame
     buttons_frame = tk.Frame(root, bg="#242f40")
     buttons_frame.pack(pady=20)
 
     # Deposit Button
-    deposit_button = tk.Button(buttons_frame, text="Deposit", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
-                            padx=20, pady=10, command=lambda: open_deposit_window(account, root))
-    deposit_button.grid(row=0, column=0, padx=10)
+    tk.Button(buttons_frame, text="Deposit", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
+              padx=20, pady=10, command=lambda: open_transaction_window(account, root, "Deposit")).grid(row=0, column=0, padx=10)
 
     # Withdraw Button
-    withdraw_button = tk.Button(buttons_frame, text="Withdraw", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
-                                padx=20, pady=10, command=lambda: open_withdraw_window(account, root))
-    withdraw_button.grid(row=0, column=1, padx=10)
+    tk.Button(buttons_frame, text="Withdraw", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
+              padx=20, pady=10, command=lambda: open_transaction_window(account, root, "Withdraw")).grid(row=0, column=1, padx=10)
 
     # Transfer Button
-    transfer_button = tk.Button(buttons_frame, text="Transfer", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
-                                padx=20, pady=10, command=lambda: open_transfer_window(account, root))
-    transfer_button.grid(row=0, column=2, padx=10)
+    tk.Button(buttons_frame, text="Transfer", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
+              padx=20, pady=10, command=lambda: open_transaction_window(account, root, "Transfer")).grid(row=0, column=2, padx=10)
 
-    # Transaction History Buttons Frame
+    # Transaction History Buttons
     history_frame = tk.Frame(root, bg="#242f40")
     history_frame.pack(pady=10)
 
-    # Checking Transaction History Button
-    checking_history_button = tk.Button(history_frame, text="Checking History", font=("Arial", 12, "bold"),
-                                        bg="#d4b270", fg="black", padx=20, pady=5,
-                                        command=lambda: open_transaction_history(account, "Checking", root))
-    checking_history_button.grid(row=0, column=0, padx=10)
+    tk.Button(history_frame, text="Checking History", font=("Arial", 12, "bold"),
+              bg="#d4b270", fg="black", padx=20, pady=5,
+              command=lambda: open_transaction_history(account, "Checking", root)).grid(row=0, column=0, padx=10)
 
-    # Savings Transaction History Button
-    savings_history_button = tk.Button(history_frame, text="Savings History", font=("Arial", 12, "bold"),
-                                    bg="#d4b270", fg="black", padx=20, pady=5,
-                                    command=lambda: open_transaction_history(account, "Savings", root))
-    savings_history_button.grid(row=0, column=1, padx=10)
+    tk.Button(history_frame, text="Savings History", font=("Arial", 12, "bold"),
+              bg="#d4b270", fg="black", padx=20, pady=5,
+              command=lambda: open_transaction_history(account, "Savings", root)).grid(row=0, column=1, padx=10)
 
-def open_deposit_window(account, root):
-    # Create a popup window
-    deposit_window = tk.Toplevel(root)
-    deposit_window.title("Deposit Funds")
-    deposit_window.geometry("300x250")
-    deposit_window.configure(bg="#242f40")
+# Function to Open a Deposit/Withdraw/Transfer Window
+def open_transaction_window(account, root, transaction_type):
+    """Creates a pop-up window for deposit, withdrawal, or transfer."""
+    transaction_window = tk.Toplevel(root)
+    transaction_window.title(f"{transaction_type} Funds")
+    transaction_window.geometry("350x300")
+    transaction_window.configure(bg="#242f40")
 
-    # Dropdown for Account Selection (Checking or Savings)
-    tk.Label(deposit_window, text="Select Account:", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    account_var = tk.StringVar(deposit_window)
-    account_var.set("Checking")  # Default selection
-    account_dropdown = tk.OptionMenu(deposit_window, account_var, "Checking", "Savings")
-    account_dropdown.pack(pady=5)
-
-    # Amount Entry
-    tk.Label(deposit_window, text="Enter Amount ($):", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    amount_entry = tk.Entry(deposit_window, font=("Arial", 12), width=15)
+    tk.Label(transaction_window, text=f"{transaction_type} Amount:", font=("Arial", 12),
+             bg="#242f40", fg="white").pack(pady=5)
+    amount_entry = tk.Entry(transaction_window, font=("Arial", 12), width=15)
     amount_entry.pack(pady=5)
 
     # Confirm and Cancel Buttons
-    button_frame = tk.Frame(deposit_window, bg="#242f40")
+    button_frame = tk.Frame(transaction_window, bg="#242f40")
     button_frame.pack(pady=10)
 
-    confirm_button = tk.Button(button_frame, text="Confirm", font=("Arial", 12, "bold"), bg="green", fg="white",
-                               padx=10, command=lambda: process_deposit(account, account_var.get(), amount_entry.get(), deposit_window, root))
+    confirm_button = tk.Button(button_frame, text="Confirm", font=("Arial", 12, "bold"),
+                               bg="green", fg="white", padx=10,
+                               command=lambda: process_transaction(account, transaction_type, amount_entry, transaction_window, root))
     confirm_button.grid(row=0, column=0, padx=5)
 
-    cancel_button = tk.Button(button_frame, text="Cancel", font=("Arial", 12, "bold"), bg="red", fg="white",
-                              padx=10, command=deposit_window.destroy)
+    cancel_button = tk.Button(button_frame, text="Cancel", font=("Arial", 12, "bold"),
+                              bg="red", fg="white", padx=10, command=transaction_window.destroy)
     cancel_button.grid(row=0, column=1, padx=5)
 
-from database import update_account  # Import to save changes
+# Function to Process Deposit, Withdrawal, or Transfer
+def process_transaction(account, transaction_type, amount_entry, transaction_window, root):
+    """Handles processing of deposits, withdrawals, and transfers."""
+    amount = amount_entry.get()
 
-def process_deposit(account, selected_account, amount, deposit_window, root):
-    try:
-        amount = float(amount)
-        if amount <= 0:
-            raise ValueError("Amount must be positive.")
+    if transaction_type == "Deposit":
+        success, error = process_deposit(account, "Checking", amount)  # Default to checking
+    elif transaction_type == "Withdraw":
+        success, error = process_withdraw(account, "Checking", amount)  # Default to checking
+    else:  # Transfer
+        success, error = process_transfer(account, "Checking", "Recipient", {}, amount)  # Simplified for now
 
-        # Update the selected account balance
-        if selected_account == "Checking":
-            account["checking_balance"] += amount
-        else:
-            account["savings_balance"] += amount
-
-        # Log the transaction
-        log_transaction(account, selected_account, "Deposit", amount)
-
-        # Save updated balance and transaction history
-        update_account(account)
-
-        # Close the deposit window
-        deposit_window.destroy()
-
-        # Refresh the account screen to show the new balance
-        show_account_screen(account, root)
-
-    except ValueError as e:
-        # Show error if input is invalid
-        error_label = tk.Label(deposit_window, text=f"⚠️ {str(e)}", font=("Arial", 10), bg="#242f40", fg="red")
-        error_label.pack(pady=5)
-
-def open_withdraw_window(account, root):
-    # Create a popup window
-    withdraw_window = tk.Toplevel(root)
-    withdraw_window.title("Withdraw Funds")
-    withdraw_window.geometry("300x250")
-    withdraw_window.configure(bg="#242f40")
-
-    # Dropdown for Account Selection (Checking or Savings)
-    tk.Label(withdraw_window, text="Select Account:", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    account_var = tk.StringVar(withdraw_window)
-    account_var.set("Checking")  # Default selection
-    account_dropdown = tk.OptionMenu(withdraw_window, account_var, "Checking", "Savings")
-    account_dropdown.pack(pady=5)
-
-    # Amount Entry
-    tk.Label(withdraw_window, text="Enter Amount ($):", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    amount_entry = tk.Entry(withdraw_window, font=("Arial", 12), width=15)
-    amount_entry.pack(pady=5)
-
-    # Confirm and Cancel Buttons
-    button_frame = tk.Frame(withdraw_window, bg="#242f40")
-    button_frame.pack(pady=10)
-
-    confirm_button = tk.Button(button_frame, text="Confirm", font=("Arial", 12, "bold"), bg="green", fg="white",
-                               padx=10, command=lambda: process_withdraw(account, account_var.get(), amount_entry.get(), withdraw_window, root))
-    confirm_button.grid(row=0, column=0, padx=5)
-
-    cancel_button = tk.Button(button_frame, text="Cancel", font=("Arial", 12, "bold"), bg="red", fg="white",
-                              padx=10, command=withdraw_window.destroy)
-    cancel_button.grid(row=0, column=1, padx=5)
-
-from database import update_account  # Ensure this is imported
-
-def process_withdraw(account, selected_account, amount, withdraw_window, root):
-    try:
-        amount = float(amount)
-        if amount <= 0:
-            raise ValueError("Amount must be positive.")
-
-        # Determine which balance to check and update
-        if selected_account == "Checking":
-            if amount > account["checking_balance"]:
-                raise ValueError("Insufficient funds.")
-            account["checking_balance"] -= amount
-        else:
-            if amount > account["savings_balance"]:
-                raise ValueError("Insufficient funds.")
-            account["savings_balance"] -= amount
-
-        # Log the transaction
-        log_transaction(account, selected_account, "Withdraw", amount)
-
-        # Save updated balance and transaction history
-        update_account(account)
-
-        # Close the withdraw window
-        withdraw_window.destroy()
-
-        # Refresh the account screen to show the new balance
-        show_account_screen(account, root)
-
-    except ValueError as e:
-        # Show error if input is invalid or insufficient funds
-        error_label = tk.Label(withdraw_window, text=f"⚠️ {str(e)}", font=("Arial", 10), bg="#242f40", fg="red")
-        error_label.pack(pady=5)
-
-def open_transfer_window(account, root):
-    # Create a popup window
-    transfer_window = tk.Toplevel(root)
-    transfer_window.title("Transfer Funds")
-    transfer_window.geometry("350x300")
-    transfer_window.configure(bg="#242f40")
-
-    # Dropdown for Selecting Account to Transfer From
-    tk.Label(transfer_window, text="Transfer From:", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    from_account_var = tk.StringVar(transfer_window)
-    from_account_var.set("Checking")  # Default selection
-    from_account_dropdown = tk.OptionMenu(transfer_window, from_account_var, "Checking", "Savings")
-    from_account_dropdown.pack(pady=5)
-
-    # Dropdown for Selecting Recipient (Now Shows Full Name and Account Type)
-    tk.Label(transfer_window, text="Send To:", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    
-    # Generate a list of recipient options in "Full Name - Account Type" format
-    accounts_list = []
-    full_account_mapping = {}  # Dictionary to map dropdown text to username
-    
-    for acc in load_accounts():
-        if acc["username"] != account["username"]:  # Exclude the sender
-            checking_label = f"{acc['name']} - Checking"
-            savings_label = f"{acc['name']} - Savings"
-            
-            accounts_list.append(checking_label)
-            accounts_list.append(savings_label)
-            
-            # Store the actual username and account type
-            full_account_mapping[checking_label] = (acc["username"], "Checking")
-            full_account_mapping[savings_label] = (acc["username"], "Savings")
-
-    recipient_var = tk.StringVar(transfer_window)
-    recipient_var.set(accounts_list[0] if accounts_list else "No Accounts")  # Default selection
-    recipient_dropdown = tk.OptionMenu(transfer_window, recipient_var, *accounts_list)
-    recipient_dropdown.pack(pady=5)
-
-    # Amount Entry
-    tk.Label(transfer_window, text="Enter Amount ($):", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    amount_entry = tk.Entry(transfer_window, font=("Arial", 12), width=15)
-    amount_entry.pack(pady=5)
-
-    # Confirm and Cancel Buttons
-    button_frame = tk.Frame(transfer_window, bg="#242f40")
-    button_frame.pack(pady=10)
-
-    confirm_button = tk.Button(button_frame, text="Confirm", font=("Arial", 12, "bold"), bg="green", fg="white",
-                               padx=10, command=lambda: process_transfer(account, from_account_var.get(), recipient_var.get(), full_account_mapping, amount_entry.get(), transfer_window, root))
-    confirm_button.grid(row=0, column=0, padx=5)
-
-    cancel_button = tk.Button(button_frame, text="Cancel", font=("Arial", 12, "bold"), bg="red", fg="white",
-                              padx=10, command=transfer_window.destroy)
-    cancel_button.grid(row=0, column=1, padx=5)
-
-from database import get_account, update_account  # Ensure these are imported
-
-def process_transfer(account, from_account, recipient_selection, account_mapping, amount, transfer_window, root):
-    try:
-        amount = float(amount)
-        if amount <= 0:
-            raise ValueError("Amount must be positive.")
-
-        # Determine sender's account balance
-        if from_account == "Checking":
-            if amount > account["checking_balance"]:
-                raise ValueError("Insufficient funds.")
-            account["checking_balance"] -= amount
-        else:
-            if amount > account["savings_balance"]:
-                raise ValueError("Insufficient funds.")
-            account["savings_balance"] -= amount
-
-        # Retrieve recipient username and target account type
-        if recipient_selection not in account_mapping:
-            raise ValueError("Recipient account not found.")
-        
-        recipient_username, recipient_account_type = account_mapping[recipient_selection]
-        recipient_account = get_account(recipient_username)
-
-        if not recipient_account:
-            raise ValueError("Recipient account not found.")
-
-        # Update recipient's balance
-        if recipient_account_type == "Checking":
-            recipient_account["checking_balance"] += amount
-        else:
-            recipient_account["savings_balance"] += amount
-
-        # Log the transaction for both sender and recipient
-        log_transaction(account, from_account, "Transfer Sent", amount)
-        log_transaction(recipient_account, recipient_account_type, "Transfer Received", amount)
-
-        # Save updates
-        update_account(account)
-        update_account(recipient_account)
-
-        # Close the transfer window
-        transfer_window.destroy()
-
-        # Refresh sender's UI to show new balance
-        show_account_screen(account, root)
-
-    except ValueError as e:
-        # Show error if input is invalid
-        error_label = tk.Label(transfer_window, text=f"⚠️ {str(e)}", font=("Arial", 10), bg="#242f40", fg="red")
-        error_label.pack(pady=5)
-
-import datetime  # Ensure datetime is imported
-
-def open_transaction_history(account, account_type, root):
-    """ Opens a transaction history window showing past transactions for a given account type. """
-    history_window = tk.Toplevel(root)
-    history_window.title(f"{account_type} Transaction History")
-    history_window.geometry("450x350")
-    history_window.configure(bg="#242f40")
-
-    tk.Label(history_window, text=f"{account_type} Transactions", font=("Arial", 14, "bold"), bg="#242f40", fg="white").pack(pady=5)
-
-    transaction_list = tk.Listbox(history_window, font=("Arial", 12), width=60, height=12)
-    transaction_list.pack(pady=5)
-
-    # Ensure transactions exist in account
-    for transaction in account.get("transactions", []):
-        if transaction["account"] == account_type:
-            transaction_list.insert(
-                tk.END,
-                f"{transaction['date']} | {transaction['type']} | ${transaction['amount']:.2f}"
-            )
-
-def log_transaction(account, account_type, transaction_type, amount):
-    """ Logs a transaction in the account's transaction history and saves it. """
-    if "transactions" not in account:  
-        account["transactions"] = []  # Ensure transactions key exists
-
-    transaction = {
-        "date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "type": transaction_type,
-        "account": account_type,
-        "amount": amount
-    }
-    
-    account["transactions"].append(transaction)  # Add to history
-
-    update_account(account)  # Save changes
+    if success:
+        transaction_window.destroy()
+        show_account_screen(account, root)  # Refresh UI
+    else:
+        tk.Label(transaction_window, text=f"⚠️ {error}", font=("Arial", 10), bg="#242f40", fg="red").pack(pady=5)

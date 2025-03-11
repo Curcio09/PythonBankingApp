@@ -1,5 +1,5 @@
 import tkinter as tk
-from ui import show_login_screen  # Import only the necessary UI function
+from ui_login import show_login_screen
 
 # Function to create the main application window
 def create_main_window():

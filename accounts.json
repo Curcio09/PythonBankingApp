@@ -5,8 +5,8 @@
         "password": "SecureBank123!",
         "account_number": 7797350999,
         "routing_number": 756090824,
-        "checking_balance": 4385.25,
-        "savings_balance": 4472.36,
+        "checking_balance": 4480.02,
+        "savings_balance": 4545.469999999999,
         "transactions": [
             {
                 "date": "2025-03-04 12:05:38",
@@ -61,6 +61,54 @@
                 "type": "Deposit",
                 "account": "Savings",
                 "amount": 1254.33
+            },
+            {
+                "date": "2025-03-11 11:23:58",
+                "type": "Deposit",
+                "account": "Checking",
+                "amount": 50.0
+            },
+            {
+                "date": "2025-03-11 11:24:15",
+                "type": "Deposit",
+                "account": "Savings",
+                "amount": 50.0
+            },
+            {
+                "date": "2025-03-11 11:24:29",
+                "type": "Withdraw",
+                "account": "Checking",
+                "amount": 20.0
+            },
+            {
+                "date": "2025-03-11 11:24:36",
+                "type": "Withdraw",
+                "account": "Savings",
+                "amount": 20.0
+            },
+            {
+                "date": "2025-03-11 11:36:25",
+                "type": "Deposit",
+                "account": "Checking",
+                "amount": 100.0
+            },
+            {
+                "date": "2025-03-11 11:36:33",
+                "type": "Deposit",
+                "account": "Savings",
+                "amount": 100.0
+            },
+            {
+                "date": "2025-03-11 11:36:50",
+                "type": "Withdraw",
+                "account": "Checking",
+                "amount": 35.23
+            },
+            {
+                "date": "2025-03-11 11:37:00",
+                "type": "Withdraw",
+                "account": "Savings",
+                "amount": 56.89
             }
         ]
     },
