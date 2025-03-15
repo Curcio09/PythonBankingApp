@@ -1,5 +1,4 @@
 import os
-import json
 from database import load_accounts
 
 # Load accounts from JSON

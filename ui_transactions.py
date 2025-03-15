@@ -71,23 +71,21 @@ def open_transfer_window(account, root):
     from_account_dropdown = tk.OptionMenu(transaction_window, from_account_var, "Checking", "Savings")
     from_account_dropdown.pack(pady=5)
 
-    # Load demo accounts excluding the sender
+    # Load valid recipient accounts
     accounts_list = []
-    account_mapping = {}  # Mapping for username and account type
-
+    full_account_mapping = {}
+    
     for acc in load_accounts():
-        if acc["username"] != account["username"]:  # Exclude sender
+        if acc["username"] != account["username"]:
             checking_label = f"{acc['name']} - Checking"
             savings_label = f"{acc['name']} - Savings"
             
             accounts_list.append(checking_label)
             accounts_list.append(savings_label)
-            
-            account_mapping[checking_label] = (acc["username"], "Checking")
-            account_mapping[savings_label] = (acc["username"], "Savings")
+            full_account_mapping[checking_label] = (acc["username"], "Checking")
+            full_account_mapping[savings_label] = (acc["username"], "Savings")
 
     tk.Label(transaction_window, text="Recipient:", font=("Arial", 12), bg="#242f40", fg="white").pack(pady=5)
-    
     recipient_var = tk.StringVar(transaction_window)
     recipient_var.set(accounts_list[0] if accounts_list else "No Accounts")
     recipient_dropdown = tk.OptionMenu(transaction_window, recipient_var, *accounts_list)
@@ -103,7 +101,7 @@ def open_transfer_window(account, root):
     confirm_button = tk.Button(button_frame, text="Confirm", font=("Arial", 12, "bold"), bg="green", fg="white",
                                padx=10, command=lambda: handle_transaction(account, from_account_var.get(), 
                                                                            amount_entry.get(), transaction_window, root, 
-                                                                           "Transfer", recipient_var.get(), account_mapping))
+                                                                           "Transfer", recipient_var.get(), full_account_mapping))
     confirm_button.grid(row=0, column=0, padx=5)
 
     cancel_button = tk.Button(button_frame, text="Cancel", font=("Arial", 12, "bold"), bg="red", fg="white",
@@ -127,18 +125,12 @@ def handle_transaction(account, selected_account, amount, transaction_window, ro
         success, error = process_withdraw(account, selected_account, amount)
 
     elif transaction_type == "Transfer":
-        if recipient is None or recipient not in account_mapping:
+        if recipient is None or account_mapping is None:
             error = "⚠️ No valid recipient selected."
             success = False
         else:
-            recipient_username, recipient_account_type = account_mapping[recipient]  # Extract correct values
-            recipient_account = get_account(recipient_username)
-
-            if not recipient_account:
-                error = "⚠️ Recipient account not found."
-                success = False
-            else:
-                success, error = process_transfer(account, selected_account, recipient_username, recipient_account_type, amount)
+            print(f"DEBUG: Raw recipient selection - {recipient}")  # Debugging
+            success, error = process_transfer(account, selected_account, recipient, account_mapping, amount)
 
     if success:
         transaction_window.destroy()

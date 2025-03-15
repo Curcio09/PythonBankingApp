@@ -28,9 +28,19 @@ def show_account_screen(account, root):
         print("Error loading logo:", e)
 
     # Sign Out Button
-    sign_out_button = tk.Button(top_frame, text="Sign Out", font=("Arial", 12, "bold"),
-                                bg="red", fg="white", command=lambda: restart_program(root))
-    sign_out_button.pack(side="right", padx=10)
+    sign_out_button = tk.Button(
+    top_frame, 
+    text="Sign Out", 
+    font=("Arial", 12, "bold"),
+    bg="red", 
+    fg="white", 
+    width=6,  # Sets button width (in characters)
+    height=1,  # Sets button height (in text lines)
+    padx=10,   # Adds horizontal padding inside button
+    pady=5,    # Adds vertical padding inside button
+    command=lambda: restart_program(root)
+)
+    sign_out_button.pack(side="right", padx=10, pady=5)  # Adds padding around button
 
     # Account Screen Header
     account_header = tk.Label(root, text=f"Welcome, {account['name']}", font=("Arial", 18, "bold"),
@@ -77,25 +87,24 @@ def show_account_screen(account, root):
 
     # Deposit Button
     tk.Button(buttons_frame, text="Deposit", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
-              padx=20, pady=10, command=lambda: open_deposit_window(account, root)).grid(row=0, column=0, padx=10)
+              padx=17, pady=10, command=lambda: open_deposit_window(account, root)).grid(row=0, column=0, padx=10)
 
     # Withdraw Button
     tk.Button(buttons_frame, text="Withdraw", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
-              padx=20, pady=10, command=lambda: open_withdraw_window(account, root)).grid(row=0, column=1, padx=10)
+              padx=17, pady=10, command=lambda: open_withdraw_window(account, root)).grid(row=0, column=1, padx=10)
 
     # Transfer Button
     tk.Button(buttons_frame, text="Transfer", font=("Arial", 14, "bold"), bg="#d4b270", fg="black",
-              padx=20, pady=10, command=lambda: open_transfer_window(account, root)).grid(row=0, column=2, padx=10)
+              padx=17, pady=10, command=lambda: open_transfer_window(account, root)).grid(row=0, column=2, padx=10)
 
     # Transaction History Buttons Frame
     history_frame = tk.Frame(root, bg="#242f40")
     history_frame.pack(pady=10)
 
-    tk.Button(history_frame, text="Checking History", font=("Arial", 12, "bold"),
-              bg="#d4b270", fg="black", padx=20, pady=5,
+    tk.Button(history_frame, text="Checking History", font=("Arial", 14, "bold"),
+              bg="#d4b270", fg="black", padx=18, pady=5,
               command=lambda: open_transaction_history(account, "Checking", root)).grid(row=0, column=0, padx=10)
 
-    tk.Button(history_frame, text="Savings History", font=("Arial", 12, "bold"),
-              bg="#d4b270", fg="black", padx=20, pady=5,
+    tk.Button(history_frame, text="Savings History", font=("Arial", 14, "bold"),
+              bg="#d4b270", fg="black", padx=18, pady=5,
               command=lambda: open_transaction_history(account, "Savings", root)).grid(row=0, column=1, padx=10)
-

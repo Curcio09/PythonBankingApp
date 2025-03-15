@@ -1,7 +1,7 @@
 import datetime
 from database import get_account, update_account
 
-def log_transaction(account, account_type, transaction_type, amount):
+def log_transaction(account, account_type, transaction_type, amount, recipient_username=None, sender_username=None):
     """Logs a transaction in the account's transaction history and saves it."""
     if "transactions" not in account:  
         account["transactions"] = []  # Ensure transactions key exists
@@ -12,7 +12,13 @@ def log_transaction(account, account_type, transaction_type, amount):
         "account": account_type,
         "amount": amount
     }
-    
+
+    # Include recipient or sender details for transfers
+    if transaction_type == "Transfer Sent":
+        transaction["to"] = recipient_username  # Log recipient
+    elif transaction_type == "Transfer Received":
+        transaction["from"] = sender_username  # Log sender
+
     account["transactions"].append(transaction)  # Add to history
     update_account(account)  # Save changes
 
@@ -75,13 +81,15 @@ def process_transfer(sender_account, from_account, recipient_selection, account_
                 raise ValueError("Insufficient funds.")
             sender_account["savings_balance"] -= amount
 
-        # Retrieve recipient's account
+        # Ensure recipient_selection exists in account_mapping
         if recipient_selection not in account_mapping:
             raise ValueError("Recipient account not found.")
-        
-        recipient_username, recipient_account_type = account_mapping[recipient_selection]
-        recipient_account = get_account(recipient_username)
 
+        # Retrieve recipient details from account_mapping
+        recipient_username, recipient_account_type = account_mapping[recipient_selection]
+
+        # Retrieve recipient's account
+        recipient_account = get_account(recipient_username)
         if not recipient_account:
             raise ValueError("Recipient account not found.")
 
@@ -91,13 +99,14 @@ def process_transfer(sender_account, from_account, recipient_selection, account_
         else:
             recipient_account["savings_balance"] += amount
 
-        # Log transactions for both sender and recipient
-        log_transaction(sender_account, from_account, "Transfer Sent", amount)
-        log_transaction(recipient_account, recipient_account_type, "Transfer Received", amount)
+        # Log transactions for both sender and recipient (including recipient details)
+        log_transaction(sender_account, from_account, "Transfer Sent", amount, recipient_username=recipient_username)
+        log_transaction(recipient_account, recipient_account_type, "Transfer Received", amount, sender_username=sender_account["username"])
 
         # Save changes
         update_account(sender_account)
         update_account(recipient_account)
+
         return True, None  # Success
     except ValueError as e:
         return False, str(e)  # Return error message
