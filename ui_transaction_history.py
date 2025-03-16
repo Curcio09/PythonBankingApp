@@ -14,19 +14,24 @@ def open_transaction_history(account, account_type, root):
     transaction_list = tk.Listbox(history_window, font=("Arial", 12), width=70, height=15)
     transaction_list.pack(pady=5)
 
+    # Debugging: Print stored transactions
+    print(f"DEBUG: Transactions = {account.get('transactions', [])}")
+
     # Ensure transactions exist in account
     for transaction in account.get("transactions", []):
         if transaction["account"] == account_type:
             # Format transfer transactions to include recipient details
             if transaction["type"] == "Transfer Sent":
+                recipient = transaction.get("recipient", "Unknown")  # Fixing recipient retrieval
                 transaction_list.insert(
                     tk.END,
-                    f"{transaction['date']} | {transaction['type']} | ${transaction['amount']:.2f} | To: {transaction.get('recipient', 'Unknown')}"
+                    f"{transaction['date']} | {transaction['type']} | ${transaction['amount']:.2f} | To: {recipient}"
                 )
             elif transaction["type"] == "Transfer Received":
+                sender = transaction.get("sender", "Unknown")  # Fixing sender retrieval
                 transaction_list.insert(
                     tk.END,
-                    f"{transaction['date']} | {transaction['type']} | ${transaction['amount']:.2f} | From: {transaction.get('sender', 'Unknown')}"
+                    f"{transaction['date']} | {transaction['type']} | ${transaction['amount']:.2f} | From: {sender}"
                 )
             else:
                 # Regular deposit/withdraw transactions

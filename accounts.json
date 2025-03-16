@@ -5,7 +5,7 @@
         "password": "SecureBank123!",
         "account_number": 7797350999,
         "routing_number": 756090824,
-        "checking_balance": 6416.4400000000005,
+        "checking_balance": 6803.39,
         "savings_balance": 4841.879999999999,
         "transactions": [
             {
@@ -251,6 +251,34 @@
                 "account": "Checking",
                 "amount": 45.0,
                 "to": "richardC89"
+            },
+            {
+                "date": "2025-03-16 11:32:50",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 34.0,
+                "to": "richardC89"
+            },
+            {
+                "date": "2025-03-16 11:39:00",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 500.95,
+                "from": "sarah_west"
+            },
+            {
+                "date": "2025-03-16 11:42:15",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 2.0,
+                "recipient": "richardC89"
+            },
+            {
+                "date": "2025-03-16 11:57:39",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 78.0,
+                "recipient": "Sarah West"
             }
         ]
     },
@@ -260,7 +288,7 @@
         "password": "CNB$avings321",
         "account_number": 6494256937,
         "routing_number": 921676375,
-        "checking_balance": 7305.019999999999,
+        "checking_balance": 7341.019999999999,
         "savings_balance": 5855.400000000001,
         "transactions": [
             {
@@ -410,6 +438,20 @@
                 "account": "Checking",
                 "amount": 45.0,
                 "from": "curcio_admin"
+            },
+            {
+                "date": "2025-03-16 11:32:50",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 34.0,
+                "from": "curcio_admin"
+            },
+            {
+                "date": "2025-03-16 11:42:15",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 2.0,
+                "sender": "curcio_admin"
             }
         ]
     },
@@ -419,7 +461,7 @@
         "password": "DepositNow789!",
         "account_number": 3744091843,
         "routing_number": 683558726,
-        "checking_balance": 2239.95,
+        "checking_balance": 1816.9999999999998,
         "savings_balance": 624.56,
         "transactions": [
             {
@@ -517,6 +559,20 @@
                 "type": "Transfer Received",
                 "account": "Savings",
                 "amount": 77.0
+            },
+            {
+                "date": "2025-03-16 11:39:00",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 500.95,
+                "to": "curcio_admin"
+            },
+            {
+                "date": "2025-03-16 11:57:39",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 78.0,
+                "sender": "Chris Curcio"
             }
         ]
     },

@@ -15,9 +15,9 @@ def log_transaction(account, account_type, transaction_type, amount, recipient_u
 
     # Include recipient or sender details for transfers
     if transaction_type == "Transfer Sent":
-        transaction["to"] = recipient_username  # Log recipient
+        transaction["recipient"] = recipient_username  # Store full name instead of username
     elif transaction_type == "Transfer Received":
-        transaction["from"] = sender_username  # Log sender
+        transaction["sender"] = sender_username  # Store full name instead of username
 
     account["transactions"].append(transaction)  # Add to history
     update_account(account)  # Save changes
@@ -93,15 +93,21 @@ def process_transfer(sender_account, from_account, recipient_selection, account_
         if not recipient_account:
             raise ValueError("Recipient account not found.")
 
+        # Get recipient's full name
+        recipient_full_name = recipient_account["name"]  # Use full name instead of username
+
         # Update recipient balance
         if recipient_account_type == "Checking":
             recipient_account["checking_balance"] += amount
         else:
             recipient_account["savings_balance"] += amount
 
+        # Debugging: Check recipient name before logging transaction
+        print(f"DEBUG: recipient_selection = {recipient_selection}, recipient_full_name = {recipient_full_name}")
+
         # Log transactions for both sender and recipient (including recipient details)
-        log_transaction(sender_account, from_account, "Transfer Sent", amount, recipient_username=recipient_username)
-        log_transaction(recipient_account, recipient_account_type, "Transfer Received", amount, sender_username=sender_account["username"])
+        log_transaction(sender_account, from_account, "Transfer Sent", amount, recipient_username=recipient_full_name)
+        log_transaction(recipient_account, recipient_account_type, "Transfer Received", amount, sender_username=sender_account["name"])
 
         # Save changes
         update_account(sender_account)
