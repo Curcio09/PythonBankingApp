@@ -129,7 +129,6 @@ def handle_transaction(account, selected_account, amount, transaction_window, ro
             error = "⚠️ No valid recipient selected."
             success = False
         else:
-            print(f"DEBUG: Raw recipient selection - {recipient}")  # Debugging
             success, error = process_transfer(account, selected_account, recipient, account_mapping, amount)
 
     if success:

@@ -5,8 +5,8 @@
         "password": "SecureBank123!",
         "account_number": 7797350999,
         "routing_number": 756090824,
-        "checking_balance": 6803.39,
-        "savings_balance": 4841.879999999999,
+        "checking_balance": 6436.39,
+        "savings_balance": 4794.879999999999,
         "transactions": [
             {
                 "date": "2025-03-04 12:05:38",
@@ -279,6 +279,95 @@
                 "account": "Checking",
                 "amount": 78.0,
                 "recipient": "Sarah West"
+            },
+            {
+                "date": "2025-03-16 12:04:05",
+                "type": "Deposit",
+                "account": "Checking",
+                "amount": 45.0
+            },
+            {
+                "date": "2025-03-16 12:04:15",
+                "type": "Withdraw",
+                "account": "Savings",
+                "amount": 100.0
+            },
+            {
+                "date": "2025-03-16 12:04:25",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 400.0,
+                "recipient": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:11:59",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 34.0,
+                "recipient": "Richard Caldwell"
+            },
+            {
+                "date": "2025-03-17 11:16:03",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 45.0,
+                "recipient": "Richard Caldwell"
+            },
+            {
+                "date": "2025-03-17 11:18:03",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 44.0,
+                "recipient": "Richard Caldwell"
+            },
+            {
+                "date": "2025-03-17 11:20:55",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 65.0,
+                "sender": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:21:02",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 44.0,
+                "sender": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:21:14",
+                "type": "Transfer Received",
+                "account": "Savings",
+                "amount": 45.0,
+                "sender": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:21:20",
+                "type": "Transfer Received",
+                "account": "Savings",
+                "amount": 7.0,
+                "sender": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:21:37",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 1.0,
+                "sender": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:21:44",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 1.0,
+                "sender": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:21:55",
+                "type": "Transfer Received",
+                "account": "Savings",
+                "amount": 1.0,
+                "sender": "Mark Thompson"
             }
         ]
     },
@@ -288,8 +377,8 @@
         "password": "CNB$avings321",
         "account_number": 6494256937,
         "routing_number": 921676375,
-        "checking_balance": 7341.019999999999,
-        "savings_balance": 5855.400000000001,
+        "checking_balance": 7464.019999999999,
+        "savings_balance": 5856.400000000001,
         "transactions": [
             {
                 "date": "2025-03-04 12:06:52",
@@ -452,6 +541,34 @@
                 "account": "Checking",
                 "amount": 2.0,
                 "sender": "curcio_admin"
+            },
+            {
+                "date": "2025-03-17 11:11:59",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 34.0,
+                "sender": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:16:03",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 45.0,
+                "sender": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:18:03",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 44.0,
+                "sender": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:22:02",
+                "type": "Transfer Received",
+                "account": "Savings",
+                "amount": 1.0,
+                "sender": "Mark Thompson"
             }
         ]
     },
@@ -461,7 +578,7 @@
         "password": "DepositNow789!",
         "account_number": 3744091843,
         "routing_number": 683558726,
-        "checking_balance": 1816.9999999999998,
+        "checking_balance": 1861.9999999999998,
         "savings_balance": 624.56,
         "transactions": [
             {
@@ -573,6 +690,20 @@
                 "account": "Checking",
                 "amount": 78.0,
                 "sender": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:22:07",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 11.0,
+                "sender": "Mark Thompson"
+            },
+            {
+                "date": "2025-03-17 11:22:17",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 34.0,
+                "sender": "Mark Thompson"
             }
         ]
     },
@@ -582,8 +713,8 @@
         "password": "TrustBank654@",
         "account_number": 5939764393,
         "routing_number": 656101089,
-        "checking_balance": 2913.16,
-        "savings_balance": 1103.02,
+        "checking_balance": 3129.9799999999996,
+        "savings_balance": 426.0,
         "transactions": [
             {
                 "date": "2025-03-12 12:47:10",
@@ -674,6 +805,107 @@
                 "type": "Transfer Sent",
                 "account": "Savings",
                 "amount": 850.41
+            },
+            {
+                "date": "2025-03-16 12:04:25",
+                "type": "Transfer Received",
+                "account": "Checking",
+                "amount": 400.0,
+                "sender": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:19:28",
+                "type": "Deposit",
+                "account": "Checking",
+                "amount": 56.7
+            },
+            {
+                "date": "2025-03-17 11:19:45",
+                "type": "Deposit",
+                "account": "Savings",
+                "amount": 34.98
+            },
+            {
+                "date": "2025-03-17 11:20:23",
+                "type": "Withdraw",
+                "account": "Checking",
+                "amount": 76.88
+            },
+            {
+                "date": "2025-03-17 11:20:34",
+                "type": "Withdraw",
+                "account": "Savings",
+                "amount": 665.0
+            },
+            {
+                "date": "2025-03-17 11:20:55",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 65.0,
+                "recipient": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:21:02",
+                "type": "Transfer Sent",
+                "account": "Savings",
+                "amount": 44.0,
+                "recipient": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:21:14",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 45.0,
+                "recipient": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:21:20",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 7.0,
+                "recipient": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:21:37",
+                "type": "Transfer Sent",
+                "account": "Savings",
+                "amount": 1.0,
+                "recipient": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:21:44",
+                "type": "Transfer Sent",
+                "account": "Savings",
+                "amount": 1.0,
+                "recipient": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:21:55",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 1.0,
+                "recipient": "Chris Curcio"
+            },
+            {
+                "date": "2025-03-17 11:22:02",
+                "type": "Transfer Sent",
+                "account": "Savings",
+                "amount": 1.0,
+                "recipient": "Richard Caldwell"
+            },
+            {
+                "date": "2025-03-17 11:22:07",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 11.0,
+                "recipient": "Sarah West"
+            },
+            {
+                "date": "2025-03-17 11:22:17",
+                "type": "Transfer Sent",
+                "account": "Checking",
+                "amount": 34.0,
+                "recipient": "Sarah West"
             }
         ]
     }

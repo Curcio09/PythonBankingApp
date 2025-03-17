@@ -102,9 +102,6 @@ def process_transfer(sender_account, from_account, recipient_selection, account_
         else:
             recipient_account["savings_balance"] += amount
 
-        # Debugging: Check recipient name before logging transaction
-        print(f"DEBUG: recipient_selection = {recipient_selection}, recipient_full_name = {recipient_full_name}")
-
         # Log transactions for both sender and recipient (including recipient details)
         log_transaction(sender_account, from_account, "Transfer Sent", amount, recipient_username=recipient_full_name)
         log_transaction(recipient_account, recipient_account_type, "Transfer Received", amount, sender_username=sender_account["name"])

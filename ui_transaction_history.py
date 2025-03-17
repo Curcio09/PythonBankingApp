@@ -14,9 +14,6 @@ def open_transaction_history(account, account_type, root):
     transaction_list = tk.Listbox(history_window, font=("Arial", 12), width=70, height=15)
     transaction_list.pack(pady=5)
 
-    # Debugging: Print stored transactions
-    print(f"DEBUG: Transactions = {account.get('transactions', [])}")
-
     # Ensure transactions exist in account
     for transaction in account.get("transactions", []):
         if transaction["account"] == account_type:
