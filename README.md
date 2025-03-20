@@ -43,7 +43,7 @@ If you don’t want to install Python, you can use the standalone executable `.e
 Use the following login credentials to test the application:
 | Name              | Username      | Password         |
 |------------------|--------------|-----------------|
-| Chris Curcio    | curcio_admin | SecureBank123!  |
+| Brutus Curcio    | curcio_admin | SecureBank123!  |
 | Richard Caldwell | richardC89   | CNB$avings321   |
 | Sarah West      | sarah_west    | DepositNow789!  |
 | Mark Thompson   | markT_CNB     | TrustBank654@   |
