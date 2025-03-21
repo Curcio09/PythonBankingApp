@@ -37,7 +37,7 @@ There are two ways to run the CNB application:
    ```
    
 ### **Option 2: Run as a Standalone Executable (.exe)**
-If you don’t want to install Python, you can use the standalone executable `.exe` version.
+If you don’t want to install Python, you can run the application using the standalone `.exe` file. Simply download and launch CurcioBankingApp.exe—no additional setup required.
 
 ## Demo Accounts
 Use the following login credentials to test the application:
