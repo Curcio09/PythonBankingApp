@@ -59,7 +59,7 @@ def initialize_accounts():
     if not accounts:  # If no saved data exists, create new accounts
         accounts = [
             {
-                "name": "Chris Curcio", "username": "curcio_admin", "password": "SecureBank123!",
+                "name": "Brutus Curcio", "username": "curcio_admin", "password": "SecureBank123!",
                 **generate_random_account()
             },
             {
